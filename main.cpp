@@ -1,17 +1,17 @@
 #include <iostream>
-#include <thread>
-#include <vector>
 #include <string>
-#include "Locks.hpp"
+
 #include "BonusLocks.hpp"
-#include "Worker.hpp"
+#include "Locks.hpp"
 #include "Run.hpp"
 
-constexpr std::size_t MAX_SUPPORTED_THREADS = 64; 
+constexpr std::size_t MAX_SUPPORTED_THREADS = 64;
 
 int main(int argc, char* argv[]) {
     if (argc < 4) {
-        std::cerr << "Usage: " << argv[0] << " <algo: filterbb|filtertb|ttree|bakery|ttas|ticket|anderson|clh|mcs> <thread_count> <increment_amount>\n";
+        std::cerr << "Usage: " << argv[0]
+                  << " <algo: filterbb|filtertb|ttree|bakery|ttas|ticket|anderson|clh|mcs> "
+                     "<thread_count> <increment_amount>\n";
         std::cerr << "Example: " << argv[0] << " bakery 4 1000\n";
         return 1;
     }
@@ -29,39 +29,32 @@ int main(int argc, char* argv[]) {
         std::cerr << "Error: Thread count must be between 1 and " << MAX_SUPPORTED_THREADS << ".\n";
         return 1;
     }
-    
+
     int shared_counter = 0;
 
-    std::cout << "Running using the [" << algorithm << "] algorithm with " << num_threads << " threads\n";
+    std::cout << "Running using the [" << algorithm << "] algorithm with " << num_threads
+              << " threads\n";
 
     if (algorithm == "bakery") {
         run<BakeryLock<MAX_SUPPORTED_THREADS>>(num_threads, increment_amount, shared_counter);
-    } 
-    else if (algorithm == "filterbb") {
+    } else if (algorithm == "filterbb") {
         run<FilterBBLock<MAX_SUPPORTED_THREADS>>(num_threads, increment_amount, shared_counter);
-    } 
-    else if (algorithm == "filtertb") {
+    } else if (algorithm == "filtertb") {
         run<FilterTBLock<MAX_SUPPORTED_THREADS>>(num_threads, increment_amount, shared_counter);
-    } 
-    else if (algorithm == "ttree") {
-        run<TournamentTreeLock<MAX_SUPPORTED_THREADS>>(num_threads, increment_amount, shared_counter);
-    } 
-    else if (algorithm == "ttas") {
+    } else if (algorithm == "ttree") {
+        run<TournamentTreeLock<MAX_SUPPORTED_THREADS>>(num_threads, increment_amount,
+                                                       shared_counter);
+    } else if (algorithm == "ttas") {
         run<TTASLock<MAX_SUPPORTED_THREADS>>(num_threads, increment_amount, shared_counter);
-    } 
-    else if (algorithm == "ticket") {
+    } else if (algorithm == "ticket") {
         run<TicketLock<MAX_SUPPORTED_THREADS>>(num_threads, increment_amount, shared_counter);
-    } 
-    else if (algorithm == "anderson") {
+    } else if (algorithm == "anderson") {
         run<AndersonLock<MAX_SUPPORTED_THREADS>>(num_threads, increment_amount, shared_counter);
-    } 
-    else if (algorithm == "clh") {
+    } else if (algorithm == "clh") {
         run<CLHLock<MAX_SUPPORTED_THREADS>>(num_threads, increment_amount, shared_counter);
-    } 
-    else if (algorithm == "mcs") {
+    } else if (algorithm == "mcs") {
         run<MCSLock<MAX_SUPPORTED_THREADS>>(num_threads, increment_amount, shared_counter);
-    } 
-    else {
+    } else {
         std::cerr << "Error: Unknown algorithm\n";
         return 1;
     }
