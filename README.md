@@ -1,5 +1,8 @@
 # multicore-project1
 
+All base locking algorithms (filter, ttree, bakery) were written based on psuedocode in class lecture notes.
+All bonus locking algorithms were written based on textbook pseudocode/descriptions.
+
 ## Build
 
 ```bash
