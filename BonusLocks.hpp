@@ -105,7 +105,7 @@ class AndersonLock : public LockStrategy<AndersonLock<N>, N> {
 template <std::size_t N>
 thread_local int AndersonLock<N>::my_slot = 0;
 
-struct alignas(64) QNode {
+struct QNode {
   std::atomic<bool> locked{false};
   std::atomic<QNode*> next{nullptr};
 };
