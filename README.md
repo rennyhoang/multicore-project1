@@ -23,3 +23,9 @@ g++ -std=c++23 -O2 -pthread -o lockbench main.cpp
 ```
 
 The program prints the final counter value and expected value.
+
+```bash
+Running using the [mcs] algorithm with 8 threads
+Final Counter Value: 40000
+Expected Value:      40000
+```
