@@ -73,19 +73,19 @@ class FilterBBLock : public LockStrategy<FilterBBLock<N>, N> {
 template <std::size_t N>
 class FilterTBLock : public LockStrategy<FilterTBLock<N>, N> {
  private:
-  std::atomic<int> level_[N]{};
+  std::atomic<int> level[N]{};
   std::atomic<int> victim[N]{};
 
  public:
   void lock_impl(std::size_t me) {
     for (std::size_t l = 1; l < N; l++) {
-      level_[me].store(l);
+      level[me].store(l);
       victim[l].store(me);
       while (true) {
         bool above_me{false};
         for (std::size_t other = 0; other < N; other++) {
           if (other == me) continue;
-          if (level_[other].load() >= l) above_me = true;
+          if (level[other].load() >= l) above_me = true;
         }
         if (victim[l].load() == me && above_me) {
           std::this_thread::yield();
@@ -96,7 +96,7 @@ class FilterTBLock : public LockStrategy<FilterTBLock<N>, N> {
     }
   }
 
-  void unlock_impl(std::size_t me) { level_[me] = 0; }
+  void unlock_impl(std::size_t me) { level[me] = 0; }
 };
 
 template <std::size_t N>
