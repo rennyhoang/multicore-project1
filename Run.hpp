@@ -5,17 +5,17 @@
 #include "Worker.hpp"
 
 template <typename LockType>
-void run(std::size_t num_threads, int increment_amount, int& counter) {
-    LockType lock_instance;
-    std::vector<std::thread> threads;
-    threads.reserve(num_threads);
+void run(std::size_t N, int increment_amount, int& counter) {
+  LockType lock_instance;
+  std::vector<std::thread> threads;
+  threads.reserve(N);
 
-    for (std::size_t i = 0; i < num_threads; ++i) {
-        threads.emplace_back(worker<LockType>, i, std::ref(lock_instance), increment_amount,
-                             std::ref(counter));
-    }
+  for (std::size_t i = 0; i < N; ++i) {
+    threads.emplace_back(worker<LockType>, i, std::ref(lock_instance), increment_amount,
+                         std::ref(counter));
+  }
 
-    for (auto& t : threads) {
-        t.join();
-    }
+  for (auto& t : threads) {
+    t.join();
+  }
 }
