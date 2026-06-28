@@ -58,7 +58,7 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
-  long long expected_value = static_cast<long long>(num_threads) * increment_amount;
+  int expected_value = num_threads * increment_amount;
   std::cout << "Final Counter Value: " << shared_counter << "\n";
   std::cout << "Expected Value:      " << expected_value << "\n";
 
